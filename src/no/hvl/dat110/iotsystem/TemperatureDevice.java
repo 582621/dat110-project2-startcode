@@ -12,19 +12,22 @@ public class TemperatureDevice {
 		// simulated / virtual temperature sensor
 		TemperatureSensor sn = new TemperatureSensor();
 
-		// TODO - start
+		Client client = new Client("Tempratursensor", Common.BROKERHOST, Common.BROKERPORT);
+		
+		client.connect();
 
-		// create a client object and use it to
-
-		// - connect to the broker - user "sensor" as the user name
-		// - publish the temperature(s)
-		// - disconnect from the broker
-
-		// TODO - end
-
+		for (int i = 0; i < COUNT; i++) {
+			client.publish(Common.TEMPTOPIC, Integer.toString(sn.read()));
+		
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		client.disconnect();
 		System.out.println("Temperature device stopping ... ");
-
-		throw new UnsupportedOperationException(TODO.method());
 
 	}
 }
